@@ -26,5 +26,6 @@
 
 ## 1단계
 - 서버, 클라이언트 구조의 간단한 메시지를 주고 받는 코드 완성
+- socket create / bind / connection 방법등 공부
 ### refer
 - https://a-researcher.tistory.com/122
