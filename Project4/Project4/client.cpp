@@ -1,38 +1,4 @@
-#include <iostream>
-#include <string>
-#include <WinSock2.h>
-#include <ws2tcpip.h>
-#include <thread>
-
-class ChatClient {
-public:
-    ChatClient(const std::string& ip, int port, const std::string& nickname)
-        : ip_(ip), port_(port), nickname_(nickname) {
-        initializeWinsock();
-        connectToServer();
-    }
-
-    ~ChatClient() {
-        cleanup();
-    }
-
-    void startChat();
-    void start(); // Add a method to start chatting and receiving messages simultaneously
-
-private:
-    std::string ip_;
-    bool running = true;
-    int port_;
-    std::string nickname_;
-    SOCKET serverSocket_ = INVALID_SOCKET;
-    void startReceiveThread(); // Method to start the thread for receiving messages
-
-    void initializeWinsock();
-    void connectToServer();
-    void sendMessage(const std::string& message);
-    void receiveMessage();
-    void cleanup();
-};
+#include "client.hpp"
 
 void ChatClient::initializeWinsock() {
     WSADATA wsaData;
@@ -53,7 +19,6 @@ void ChatClient::connectToServer() {
 
     sockaddr_in serverAddr = {};
     serverAddr.sin_family = AF_INET;
-    // 올바르게 InetPton 함수 사용
     InetPtonA(AF_INET, ip_.c_str(), &serverAddr.sin_addr);
     serverAddr.sin_port = htons(static_cast<u_short>(port_));
 
@@ -66,17 +31,17 @@ void ChatClient::connectToServer() {
 }
 void ChatClient::startReceiveThread() {
     while (running) {
-        receiveMessage(); // Call your existing receiveMessage method
+        receiveMessage();
     }
 }
 
 void ChatClient::start() {
-    std::thread receiveThread(&ChatClient::startReceiveThread, this); // Start the receiving thread
+    std::thread receiveThread(&ChatClient::startReceiveThread, this);
 
-    startChat(); // Start chatting (sending messages)
+    startChat();
 
     if (receiveThread.joinable()) {
-        receiveThread.join(); // Make sure to join the thread when finished
+        receiveThread.join();
     }
 }
 
@@ -86,7 +51,7 @@ void ChatClient::startChat() {
     while (running) {
         std::getline(std::cin, input);
         if (input == "/x") {
-            running = false; // Ensure to stop the receive thread as well
+            running = false;
             break;
         }
         sendMessage("[" + nickname_ + "] " + input);
@@ -123,18 +88,3 @@ void ChatClient::cleanup() {
     WSACleanup();
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <Server IP> <Port> <Nickname>\n";
-        return 1;
-    }
-
-    std::string serverIp = argv[1];
-    int port = std::stoi(argv[2]);
-    std::string nickname = argv[3];
-
-    ChatClient client(serverIp, port, nickname);
-    client.start(); // Use the new start method
-
-    return 0;
-}
