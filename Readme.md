@@ -1,5 +1,7 @@
 # TCP/IP 소켓 프로그래밍 프로젝트
-
+### 프로젝트 git link && 블로그 회고록
+https://github.com/HyWChoi/CPP_SOCKET_CHAT_SERVER
+https://bloblogle.tistory.com/category/Project/socket_chat_server
 ## 개요
 
 이 프로젝트는 Windows 환경에서 Visual Studio를 사용하여 TCP/IP 소켓 프로그래밍의 기본을 다룹니다. 프로젝트는 두 단계로 구성되어 있으며, 기본적인 서버/클라이언트 연결의 설정부터 시작하여, 간단한 채팅 애플리케이션의 구현 및 데이터베이스를 통한 채팅 기록 저장까지 포함됩니다.
