@@ -1,11 +1,4 @@
 #include "ChatServer.hpp"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <mysql_connection.h>
-#include <mysql_driver.h>
-#include <cppconn/prepared_statement.h>
-#include <stdexcept>
 
 ChatServer::ChatServer(unsigned short port) : port_(port), listeningSocket_(INVALID_SOCKET) {
     initializeWinsock();
@@ -42,7 +35,7 @@ std::map<std::string, std::string> ChatServer::loadEnv(const std::string& envFil
         std::string key;
         if (std::getline(is_line, key, '=')) {
             std::string value;
-            if (key[0] == '#') continue; // 주석 처리된 줄은 무시
+            if (key[0] == '#') continue;
             if (std::getline(is_line, value)) {
                 env[key] = value;
             }

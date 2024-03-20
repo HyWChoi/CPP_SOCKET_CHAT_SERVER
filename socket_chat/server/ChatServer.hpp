@@ -1,6 +1,13 @@
 #ifndef CHATSERVER_HPP
 #define CHATSERVER_HPP
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <mysql_connection.h>
+#include <mysql_driver.h>
+#include <cppconn/prepared_statement.h>
+#include <stdexcept>
 #include <vector>
 #include <string>
 #include <WinSock2.h>
@@ -8,7 +15,6 @@
 #include <mutex>
 #include <map>
 
-// Forward declaration of SQL classes
 namespace sql {
     namespace mysql {
         class MySQL_Driver;
@@ -36,4 +42,4 @@ private:
     void cleanup();
 };
 
-#endif // CHATSERVER_HPP
+#endif
